@@ -8,6 +8,8 @@ public interface EmployeeService {
     List<Employee> getAllEmployee();
     Employee getEmployeeById(String employeeCode);
 
+    Employee getEmployeeByEmail(String email);
+
     Employee createEmployee(Employee employee);
     Employee updateEmployee(String employeeCode,Employee employee);
     void deleteEmployee(String employeeCode);

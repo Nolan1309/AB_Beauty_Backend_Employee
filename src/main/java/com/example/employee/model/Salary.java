@@ -36,4 +36,68 @@ public class Salary {
 
     @Column(name = "salary_payment_status",length = 20)
     private String salaryPaymentStatus;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Date getSalaryDate() {
+        return salaryDate;
+    }
+
+    public void setSalaryDate(Date salaryDate) {
+        this.salaryDate = salaryDate;
+    }
+
+    public Double getSalaryBasic() {
+        return salaryBasic;
+    }
+
+    public void setSalaryBasic(Double salaryBasic) {
+        this.salaryBasic = salaryBasic;
+    }
+
+    public Double getSalaryBonus() {
+        return salaryBonus;
+    }
+
+    public void setSalaryBonus(Double salaryBonus) {
+        this.salaryBonus = salaryBonus;
+    }
+
+    public Double getSalaryDeductions() {
+        return salaryDeductions;
+    }
+
+    public void setSalaryDeductions(Double salaryDeductions) {
+        this.salaryDeductions = salaryDeductions;
+    }
+
+    public Double getSalaryTotalSalary() {
+        return salaryTotalSalary;
+    }
+
+    public void setSalaryTotalSalary(Double salaryTotalSalary) {
+        this.salaryTotalSalary = salaryTotalSalary;
+    }
+
+    public String getSalaryPaymentStatus() {
+        return salaryPaymentStatus;
+    }
+
+    public void setSalaryPaymentStatus(String salaryPaymentStatus) {
+        this.salaryPaymentStatus = salaryPaymentStatus;
+    }
 }

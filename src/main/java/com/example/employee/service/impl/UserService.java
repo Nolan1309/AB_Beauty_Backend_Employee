@@ -1,7 +1,13 @@
 package com.example.employee.service.impl;
 
 import com.example.employee.model.Employee;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {
-    public Employee findByEmail(String email);
+import java.util.Collection;
+
+public interface UserService extends UserDetailsService {
+    Employee findByEmail(String email);
+
+    Collection<? extends GrantedAuthority> getAuthorities(Employee employee);
 }
