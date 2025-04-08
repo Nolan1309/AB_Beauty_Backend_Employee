@@ -1,5 +1,6 @@
 package com.example.employee.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import java.time.Instant;
 import java.util.Date;
 @Data
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "refresh_token")
 public class RefreshToken {
     private static final int EXPIRATION = 60 * 24;

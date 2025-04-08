@@ -20,6 +20,7 @@ public class Endpoint {
 
     public static final String[] ADMIN_GET_ENDPOINT = {
             "/api/company",
+            "/api/info-employee",
     };
     public static final String[] ADMIN_POST_ENDPOINT = {
 
@@ -40,10 +41,11 @@ public class Endpoint {
             "/api/department/*",
             "/api/employee",
             "/api/employee/*",
-            "/api/info-employee",
             "/api/info-employee/*",
-            "/api/salary",
-            "/api/salary/*"
+            "/api/coupon/page",
+            "/api/salary/*/employee/*",
+            "/api/employee/*/same-company",
+            "/api/salary/employee/*/salary/*"
     };
 
     public static final String[] USER_POST_ENDPOINT = {

@@ -58,7 +58,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(tenDangNhap)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 120 * 60 * 1000)) // JWT hết hạn sau 30 phút
+                .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000)) // JWT hết hạn sau 30 phút
                 .signWith(SignatureAlgorithm.HS256, getSigneKey())
                 .compact();
     }
@@ -87,7 +87,8 @@ public class JwtService {
 
     // Kiểm tra tời gian hết hạn từ JWT
     public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        String username = extractClaim(token, Claims::getSubject);
+        return username;
     }
 
     // Kiểm tra cái JWT đã hết hạn
@@ -98,7 +99,10 @@ public class JwtService {
     // Kiểm tra tính hợp lệ
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String tenDangNhap = extractUsername(token);
-        System.out.println(tenDangNhap);
         return (tenDangNhap.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+//    public String getEmailFromToken(String token) {
+//        return extractUsername(token); // Trả về email từ subject (username)
+//    }
 }

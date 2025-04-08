@@ -47,11 +47,13 @@ public class SecurityConfiguration {
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
-
+    private static final String[] WHITE_LIST_URL = {"/swagger-ui/index.html",   "/swagger-ui/**", "/webjars/**", "/swagger-ui.html", "/api/auth/**",
+            "/api/test/**", "/authenticate" };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                         config -> config
+                                .requestMatchers(WHITE_LIST_URL).permitAll()
                                 .requestMatchers(HttpMethod.GET, Endpoint.PUBLIC_GET_ENDPOINT).permitAll()
                                 .requestMatchers(HttpMethod.POST, Endpoint.PUBLIC_POST_ENDPOINT).permitAll()
                                 .requestMatchers(HttpMethod.PUT, Endpoint.PUBLIC_PUT_ENDPOINT).permitAll()
@@ -67,12 +69,11 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.DELETE, Endpoint.ADMIN_DELETE_ENDPOINT).hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.PUT, Endpoint.ADMIN_PUT_ENDPOINT).hasAuthority("ADMIN")
                                 .anyRequest().authenticated()
-
                 );
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Đảm bảo JwtFilter hoạt động
         http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));  // Không sử dụng session
-        http.httpBasic(Customizer.withDefaults());
         http.csrf(csrf -> csrf.disable()); // Tắt CSRF nếu sử dụng JWT
+        http.httpBasic(Customizer.withDefaults());
         return http.build();
     }
 

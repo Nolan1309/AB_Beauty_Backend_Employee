@@ -1,11 +1,13 @@
 package com.example.employee.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
 @Entity
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "info_employee")
 public class InfoEmployee {
     @Id

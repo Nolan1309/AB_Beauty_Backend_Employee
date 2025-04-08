@@ -1,5 +1,6 @@
 package com.example.employee.controller;
 
+import com.example.employee.dto.InfoEmployeePublicDTO;
 import com.example.employee.model.InfoEmployee;
 import com.example.employee.service.impl.InfoEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,14 @@ public class InfoEmployeeController {
         return infoEmployeeService.getAllInfoEmployee();
     }
 
+//    @GetMapping("/{employeeCode}")
+//    public InfoEmployee getInfoEmployeeById(@PathVariable String employeeCode) {
+//        return infoEmployeeService.getInfoEmployeeByEmployeeCode(employeeCode);
+//    }
+
     @GetMapping("/{employeeCode}")
-    public InfoEmployee getInfoEmployeeById(@PathVariable String employeeCode) {
-        return infoEmployeeService.getInfoEmployeeById(employeeCode);
+    public InfoEmployeePublicDTO getPublicEmployeeInfo(@PathVariable String employeeCode) {
+        return infoEmployeeService.getPublicEmployeeInfo(employeeCode);
     }
 
     @PostMapping

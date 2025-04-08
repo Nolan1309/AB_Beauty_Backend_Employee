@@ -1,8 +1,10 @@
 package com.example.employee.controller;
 
+import com.example.employee.dto.CouponResponseDTO;
 import com.example.employee.model.Coupon;
 import com.example.employee.service.impl.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,10 @@ public class CouponController {
         return couponService.getAllCoupon();
     }
 
+    @GetMapping("/page")
+    public Page<CouponResponseDTO> getCoupons(@RequestParam int page, @RequestParam int size) {
+        return couponService.getCouponsWithPagination(page, size);
+    }
     @GetMapping("/{couponCode}")
     public Coupon getCouponById(@PathVariable String couponCode) {
         return couponService.getCouponById(couponCode);
