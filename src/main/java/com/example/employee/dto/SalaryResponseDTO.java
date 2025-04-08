@@ -1,46 +1,36 @@
-package com.example.employee.model;
+package com.example.employee.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
-
-@Entity
 @Data
-@Table(name = "salary")
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Salary {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class SalaryResponseDTO {
     private Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "employee_code", referencedColumnName = "employee_code")
-    private Employee employee;
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "salary_date")
+    private String employeeCode;
+    private String employeeName;
     private Date salaryDate;
-
-    @Column(name = "salary_bassic",precision = 10)
     private Double salaryBasic;
-
-    @Column(name = "salary_bonus",precision = 10)
     private Double salaryBonus;
-
-    @Column(name = "salary_deductions",precision = 10)
     private Double salaryDeductions;
-
-    @Column(name = "salary_totalSalary",precision = 10)
     private Double salaryTotalSalary;
-
-    @Column(name = "salary_payment_status",length = 20)
     private String salaryPaymentStatus;
-
-    @Column(name = "salary_link_file",length = 20)
     private String salaryLinkFile;
+
+    public SalaryResponseDTO() {
+    }
+
+    public SalaryResponseDTO(Integer id, String employeeCode, String employeeName, Date salaryDate, Double salaryBasic, Double salaryBonus, Double salaryDeductions, Double salaryTotalSalary, String salaryPaymentStatus, String salaryLinkFile) {
+        this.id = id;
+        this.employeeCode = employeeCode;
+        this.employeeName = employeeName;
+        this.salaryDate = salaryDate;
+        this.salaryBasic = salaryBasic;
+        this.salaryBonus = salaryBonus;
+        this.salaryDeductions = salaryDeductions;
+        this.salaryTotalSalary = salaryTotalSalary;
+        this.salaryPaymentStatus = salaryPaymentStatus;
+        this.salaryLinkFile = salaryLinkFile;
+    }
 
     public Integer getId() {
         return id;
@@ -50,12 +40,20 @@ public class Salary {
         this.id = id;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public String getEmployeeCode() {
+        return employeeCode;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployeeCode(String employeeCode) {
+        this.employeeCode = employeeCode;
+    }
+
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
     }
 
     public Date getSalaryDate() {
@@ -104,5 +102,13 @@ public class Salary {
 
     public void setSalaryPaymentStatus(String salaryPaymentStatus) {
         this.salaryPaymentStatus = salaryPaymentStatus;
+    }
+
+    public String getSalaryLinkFile() {
+        return salaryLinkFile;
+    }
+
+    public void setSalaryLinkFile(String salaryLinkFile) {
+        this.salaryLinkFile = salaryLinkFile;
     }
 }

@@ -4,6 +4,7 @@ import com.example.employee.model.Company;
 import com.example.employee.repository.CompanyRepository;
 import com.example.employee.service.impl.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,16 +12,20 @@ import java.util.List;
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
+
+
     @Autowired
     private CompanyRepository companyRepository;
 
     @Override
     public List<Company> getAllCompany() {
+        String check = "";
+
         return companyRepository.findAll();
     }
 
     @Override
-    public Company getCompanyById(String companyCode) {
+    public Company getCompanyByCompanyCode(String companyCode) {
         return companyRepository.findCompanyByCompanyCode(companyCode);
     }
 

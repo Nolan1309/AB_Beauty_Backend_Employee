@@ -1,10 +1,12 @@
 package com.example.employee.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Table(name = "role")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class Role {
     @Id
@@ -15,4 +17,28 @@ public class Role {
     private String name;
     @Column(name = "description")
     private String description;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

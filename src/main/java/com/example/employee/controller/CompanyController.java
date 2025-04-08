@@ -4,6 +4,7 @@ import com.example.employee.model.Company;
 import com.example.employee.service.CompanyServiceImpl;
 import com.example.employee.service.impl.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class CompanyController {
 
     @GetMapping("/{companyCode}")
     public Company getCompanyById(@PathVariable String companyCode) {
-        return companyService.getCompanyById(companyCode);
+        Company item = companyService.getCompanyByCompanyCode(companyCode);
+        return item;
     }
 
     @PostMapping
