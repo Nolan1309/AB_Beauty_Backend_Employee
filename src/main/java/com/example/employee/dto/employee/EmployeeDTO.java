@@ -1,121 +1,39 @@
-package com.example.employee.model;
+package com.example.employee.dto.employee;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-
 @Data
-@Entity
-@Table(name = "employee")
-public class Employee implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class EmployeeDTO {
     private Integer id;
-
-    @ManyToOne()
-    @JoinColumn(name = "role_id")
-    @JsonIgnore
-    private Role role;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "employee_code",length = 200, nullable = false, unique = true)
     private String employeeCode;
-
-    @Column(name = "employee_name", nullable = false)
     private String employeeName;
-
-    @Column(name = "email", nullable = false)
     private String email;
-
-    @Column(name = "employee_phone")
+    private String password;
     private String employeePhoneNumber;
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "employee_last_login")
     private Date employeeLastLogin;
-
-    @Column(name = "employee_active")
     private Short employeeActive;
+    private String companyCode;
+    private String companyName;
 
-    @Column(name = "employee_total_LTL",precision = 65)
     private BigDecimal employeeTotalLTL = BigDecimal.ZERO;
-
-    @Column(name = "employee_total_LKF",precision = 65)
     private BigDecimal employeeTotalLKF = BigDecimal.ZERO;
-
-    @Column(name = "employee_total_LKF_M",precision = 65)
     private BigDecimal employeeTotalLKF_M = BigDecimal.ZERO;
-
-    @Column(name = "employee_total_LDL",precision = 65)
     private BigDecimal employeeTotalLDL = BigDecimal.ZERO;
-
-    @Column(name = "employee_total_ABD",precision = 65)
     private BigDecimal employeeTotalABD = BigDecimal.ZERO;
-
-    @Column(name = "employee_total_ABT",precision = 65)
     private BigDecimal employeeTotalABT = BigDecimal.ZERO;
-
-    @Column(name = "employee_total_ABBW",precision = 65)
     private BigDecimal employeeTotalABBW = BigDecimal.ZERO;
-
-    @Column(name = "employee_total_ABBW_ABB",precision = 65)
     private BigDecimal employeeTotalABBW_ABB = BigDecimal.ZERO;
-
-    @Column(name = "employee_total_Affiliate",precision = 65)
     private BigDecimal employeeTotalAffiliate = BigDecimal.ZERO;
-
-    @Column(name = "employee_banlance",precision = 65)
     private BigDecimal employeeBalance = BigDecimal.ZERO;
-
-    @Column(name = "employee_total_Withdrat",precision = 65)
     private BigDecimal employeeTotalWithdraw = BigDecimal.ZERO;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_code", referencedColumnName = "department_code")
-    private Department department;
+    // Department information
+    private String departmentCode;
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setEmployeeEmail(String employeeEmail) {
-        this.email = employeeEmail;
-    }
-    public String getEmployeeEmail() {
-        return email;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Here you should return the authorities/roles assigned to the employee
-        // For example, assuming that the Role entity has a collection of authorities
-        return Arrays.asList(new SimpleGrantedAuthority(role.getName())); // Adjust this based on your Role class
-    }
-
-    @Override
-    public String getPassword() {
-        return password;  // Returning the password for authentication
-    }
-
-    @Override
-    public String getUsername() {
-        return email;  // Usually, the username is the email
-    }
-    public Role getRole() {
-        return role;
-    }
+    // Role information
+    private Integer roleId;
 
     public Integer getId() {
         return id;
@@ -123,10 +41,6 @@ public class Employee implements UserDetails {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmployeeCode() {
@@ -265,16 +179,35 @@ public class Employee implements UserDetails {
         this.employeeTotalWithdraw = employeeTotalWithdraw;
     }
 
-    public Department getDepartment() {
-        return department;
+    public String getDepartmentCode() {
+        return departmentCode;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
     }
-    
-    // Phương thức tiện ích để lấy thông tin công ty từ department
-    public Company getCompany() {
-        return department != null ? department.getCompany() : null;
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

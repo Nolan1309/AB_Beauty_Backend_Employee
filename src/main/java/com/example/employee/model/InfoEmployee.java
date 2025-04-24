@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.Date;
 @Entity
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
+// @JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "info_employee")
 public class InfoEmployee {
     @Id

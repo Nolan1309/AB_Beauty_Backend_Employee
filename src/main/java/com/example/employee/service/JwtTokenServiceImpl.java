@@ -1,9 +1,9 @@
-package com.example.employee.config;
-
+package com.example.employee.service;
 
 import com.example.employee.model.Company;
 import com.example.employee.model.Employee;
 import com.example.employee.model.Role;
+import com.example.employee.service.impl.JwtTokenService;
 import com.example.employee.service.impl.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -14,22 +14,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cglib.core.internal.Function;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-@Component
-public class JwtService {
+@Service
+public class JwtTokenServiceImpl implements JwtTokenService {
 
     @Value("${app.jwtSecret}")
-    private String SECRET;
+    private String secret;
+    
     @Autowired
     private UserService userService;
 
+    @Override
     public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
         boolean isAdmin = false;
@@ -48,18 +49,17 @@ public class JwtService {
         }
         claims.put("isAdmin", isAdmin);
         claims.put("isUser", isUser);
-        
-        // Thêm thông tin công ty vào token từ department
+
         if (account != null && account.getDepartment() != null && account.getDepartment().getCompany() != null) {
             Company company = account.getDepartment().getCompany();
             claims.put("companyCode", company.getCompanyCode());
-            claims.put("companyName", company.getCompanyName());
+            claims.put("employeeCode", account.getEmployeeCode());
+            claims.put("departmentCode", account.getDepartment().getDepartmentCode());
         }
 
         return createToken(claims, email);
     }
 
-    // Tạo JWT với các claim đã chọn
     private String createToken(Map<String, Object> claims, String tenDangNhap) {
         return Jwts.builder()
                 .setClaims(claims)
@@ -70,46 +70,36 @@ public class JwtService {
                 .compact();
     }
 
-    // Lấy serect key
     private Key getSigneKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // Trích xuất thông tin
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(getSigneKey()).parseClaimsJws(token).getBody();
     }
 
-    // Trích xuất thông tin cho 1 claim
     public <T> T extractClaim(String token, Function<Claims, T> claimsTFunction) {
         final Claims claims = extractAllClaims(token);
         return claimsTFunction.apply(claims);
     }
 
-    // Kiểm tra tời gian hết hạn từ JWT
-    public Date extractExpiration(String token) {
+    private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // Kiểm tra tời gian hết hạn từ JWT
+    @Override
     public String extractUsername(String token) {
-        String username = extractClaim(token, Claims::getSubject);
-        return username;
+        return extractClaim(token, Claims::getSubject);
     }
 
-    // Kiểm tra cái JWT đã hết hạn
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    // Kiểm tra tính hợp lệ
+    @Override
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String tenDangNhap = extractUsername(token);
         return (tenDangNhap.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
-
-//    public String getEmailFromToken(String token) {
-//        return extractUsername(token); // Trả về email từ subject (username)
-//    }
-}
+} 

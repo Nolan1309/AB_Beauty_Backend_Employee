@@ -1,4 +1,4 @@
-package com.example.employee.dto;
+package com.example.employee.dto.auth;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,19 +1,26 @@
 package com.example.employee.service.impl;
 
-import com.example.employee.dto.CouponResponseDTO;
-import com.example.employee.model.Coupon;
+import com.example.employee.dto.ApiResponse;
+import com.example.employee.dto.coupon.CouponDTO;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 public interface CouponService {
-    List<Coupon> getAllCoupon();
-    Page<CouponResponseDTO> getCouponsWithPagination(int page , int size);
-    Coupon getCouponById(String couponCode);
-
-    Coupon createCoupon(Coupon coupon);
-    Coupon updateCoupon(String couponCode,Coupon coupon);
-    void deleteCoupon(String couponCode);
-
-     CouponResponseDTO convertToCouponDTO(Coupon coupon) ;
+    ApiResponse<Page<?>> getAllCoupon(Pageable pageable);
+    // ApiResponse<?> getCouponByCouponCode(String couponCode, String companyCode);
+    ApiResponse<?> createCoupon(CouponDTO coupon, String companyCode);
+    ApiResponse<?> updateCoupon(String couponCode, String companyCode,CouponDTO coupon);
+    ApiResponse<?> deletedCoupon(String couponCode, String companyCode);
+    
+    /**
+     * Tìm kiếm khuyến mãi theo mã hoặc tên và phân trang kết quả
+     * @param couponCode mã khuyến mãi (có thể null)
+     * @param couponName tên khuyến mãi (có thể null)
+     * @param pageable thông tin phân trang (page, size)
+     * @return ApiResponse chứa Page các khuyến mãi thỏa mãn điều kiện
+     */
+    ApiResponse<Page<?>> searchCoupons(String couponCode, String couponName, Pageable pageable);
+    
+    ApiResponse<Page<?>> searchCouponsByCompany(String couponCode, String couponName, String companyCode, Pageable pageable);
+//    CouponDTO convertToCouponDTO(Coupon coupon) ;
 }

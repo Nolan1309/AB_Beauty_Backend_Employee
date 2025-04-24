@@ -1,6 +1,6 @@
 package com.example.employee.service;
 
-import com.example.employee.dto.SalaryResponseDTO;
+import com.example.employee.dto.salary.SalaryResponseDTO;
 import com.example.employee.model.Salary;
 import com.example.employee.repository.SalaryRepository;
 import com.example.employee.service.impl.SalaryService;
