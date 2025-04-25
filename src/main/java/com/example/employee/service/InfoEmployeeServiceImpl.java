@@ -1,6 +1,6 @@
 package com.example.employee.service;
 
-import com.example.employee.dto.InfoEmployeePublicDTO;
+import com.example.employee.dto.info_employee.InfoEmployeePublicDTO;
 import com.example.employee.model.InfoEmployee;
 import com.example.employee.repository.InfoEmployeeRepository;
 import com.example.employee.service.impl.InfoEmployeeService;

@@ -1,4 +1,4 @@
-package com.example.employee.dto;
+package com.example.employee.dto.info_employee;
 
 import lombok.Data;
 

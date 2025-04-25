@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
+// @JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "coupon")
 public class Coupon {
     @Id
