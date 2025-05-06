@@ -19,10 +19,14 @@ public class CouponController {
     @GetMapping
     public ApiResponse<Page<?>> getAllCoupons(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size) {
-        Pageable pageable;
-        pageable = PageRequest.of(page, size);
-        return couponService.getAllCoupon(pageable);
+            @RequestParam(defaultValue = "50") int size,
+            @RequestParam(required = false) String companyCode, // Đổi companyName thành companyCode
+            @RequestParam(required = false) Double discount, // Thêm tham số mức giảm giá
+            @RequestParam(required = false) String startDate, // Thêm tham số ngày bắt đầu
+            @RequestParam(required = false) String couponCode, // Thêm tham số mã coupon
+            @RequestParam(required = false) String couponName) { // Thêm tham số tên coupon
+        Pageable pageable = PageRequest.of(page, size);
+        return couponService.getAllCoupon(companyCode, discount, startDate, couponCode, couponName, pageable);
     }
 
     //ADMIN

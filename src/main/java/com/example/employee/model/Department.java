@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
+import java.util.List;
+
 @Entity
 @Data
 // @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -32,6 +34,9 @@ public class Department {
 
     @Column(name = "department_level")
     private Integer departmentLevel;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
+    private List<Employee> employeeList;
 
     public Integer getId() {
         return id;

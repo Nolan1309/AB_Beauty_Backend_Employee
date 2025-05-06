@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping( "/api/company")
 public class CompanyController {
@@ -26,12 +28,15 @@ public class CompanyController {
         return companyService.getAllCompany(pageable);
     }
 
+    @GetMapping("/list")
+    public ApiResponse<List<?>> getAllCompaniesList() {
+        return companyService.getAllCompany();
+    }
+
     @GetMapping("/{companyCode}")
     public ApiResponse<?> getCompanyById(@PathVariable String companyCode) {
         return companyService.getCompanyByCompanyCode(companyCode);
     }
-    
-    
     @PostMapping
     public ApiResponse<?> createCompany(@RequestBody @Valid CompanyDTO company) {
         return companyService.createCompany(company);

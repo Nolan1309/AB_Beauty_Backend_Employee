@@ -2,6 +2,7 @@ package com.example.employee.service;
 
 import com.example.employee.dto.ApiResponse;
 import com.example.employee.dto.department.DepartmentDTO;
+import com.example.employee.dto.department.DepartmentOrganizationDTO;
 import com.example.employee.exception.DataNotFoundException;
 import com.example.employee.mapper.DepartmentMapper;
 import com.example.employee.mapper.EmployeeMapper;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -43,9 +45,20 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public ApiResponse<?> getDepartmentsByCompanyCode(String companyCode) {
         List<Department> departments = departmentRepository.findDepartmentByCompany_CompanyCode(companyCode);
-        return new ApiResponse<>("Departments retrieved successfully.", departments, 200);
+        List<DepartmentOrganizationDTO> departmentDTOList = departments.stream().map(department -> {
+            DepartmentOrganizationDTO dto = new DepartmentOrganizationDTO();
+            dto.setId(department.getId());
+            dto.setDepartmentCode(department.getDepartmentCode());
+            dto.setDepartmentName(department.getDepartmentName());
+            dto.setDepartmentParent(department.getDepartmentParent());
+            dto.setDepartmentLevel(department.getDepartmentLevel());
+            dto.setCompanyCode(department.getCompany().getCompanyCode());
+            dto.setCompanyName(department.getCompany().getCompanyName());
+            dto.setEmployeeCount(department.getEmployeeList().size());
+            return dto;
+        }).collect(Collectors.toList());
+        return new ApiResponse<>("Departments retrieved successfully.", departmentDTOList, 200);
     }
-    
 
     @Override
     public ApiResponse<?> createDepartment(DepartmentDTO departmentDTO) {

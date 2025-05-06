@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.Optional;
+
 @RepositoryRestResource(exported = false)
 public interface InfoEmployeeRepository extends JpaRepository<InfoEmployee, Integer> {
 
@@ -25,4 +27,6 @@ public interface InfoEmployeeRepository extends JpaRepository<InfoEmployee, Inte
             "JOIN e.department d " +
             "WHERE e.employeeCode = :employeeCode")
     InfoEmployeePublicDTO findPublicEmployeeInfoByCode(@Param("employeeCode") String employeeCode);
+
+//    Optional<InfoEmployee> findInfoEmployeeByEmployeeEmployeeCode(String employeeCode);
 }

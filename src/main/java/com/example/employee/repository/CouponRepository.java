@@ -53,4 +53,17 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
         @Param("companyCode") String companyCode,
         Pageable pageable
     );
+    @Query("SELECT c FROM Coupon c " +
+            "WHERE (:companyCode IS NULL OR c.company.companyCode = :companyCode) " + // Đổi companyName thành companyCode
+            "AND (:discount IS NULL OR c.couponDiscount = :discount) " +
+            "AND (:startDate IS NULL OR c.couponDateStart >= :startDate) " +
+            "AND (:couponCode IS NULL OR c.couponCode LIKE %:couponCode%) " +
+            "AND (:couponName IS NULL OR c.couponName LIKE %:couponName%)")
+    Page<Coupon> findCouponsWithFilters(
+            @Param("companyCode") String companyCode, // Đổi companyName thành companyCode
+            @Param("discount") Double discount,
+            @Param("startDate") String startDate,
+            @Param("couponCode") String couponCode,
+            @Param("couponName") String couponName,
+            Pageable pageable);
 }

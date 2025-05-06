@@ -75,10 +75,14 @@ public class InfoEmployee {
     @Column(name = "info_number_bank")
     private String infoNumberBank;
 
+    @Column(name = "info_dob")
+    private Date infoDob;
+
     @Column(name = "info_medical_danger")
     private String infoMedicalDanger;
 
-
+    @Column(name = "position")
+    private String position;
     public Integer getId() {
         return id;
     }

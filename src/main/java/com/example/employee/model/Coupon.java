@@ -56,6 +56,7 @@ public class Coupon {
     @Column(name = "coupon_object",columnDefinition = "LONGTEXT")
     private String couponObjects;
 
+
     public Integer getId() {
         return id;
     }
