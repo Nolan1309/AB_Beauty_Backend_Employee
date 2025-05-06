@@ -25,25 +25,10 @@ public class CouponServiceImpl implements CouponService {
     @Autowired
     private CouponMapper couponMapper;
     @Override
-    public ApiResponse<Page<?>> getAllCoupon(Pageable pageable) {
-        Page<Coupon> couponPage = couponRepository.findAll(pageable);
+    public ApiResponse<Page<?>> getAllCoupon(String companyCode, Double discountValue, String startDate,String couponCode, String couponName, Pageable pageable) {
+        Page<Coupon> couponPage = couponRepository.findCouponsWithFilters(companyCode,discountValue,startDate,couponCode,couponName,pageable);
         return new ApiResponse<>("Coupon retrieved successfully.", couponPage,200);
     }
-
-    // @Override
-    // public ApiResponse<?> getCouponByCouponCode(String couponCode ,String companyCode) {
-    //     try{
-    //         List<Coupon> couponList = couponRepository.findCouponByCouponCode(couponCode);
-    //         if (couponList.isEmpty()){
-    //             return new ApiResponse<>("Coupon no found!",null, 404);
-    //         }
-    //         return new ApiResponse<>("Successful",couponList,200);
-
-    //     }catch (Exception e){
-    //         return new ApiResponse<>("Loi he thong",null,500);
-    //     }
-    // }
-
     @Override
     @Transactional
     public ApiResponse<?> createCoupon(CouponDTO couponDTO, String companyCode) {

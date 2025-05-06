@@ -42,6 +42,9 @@ public class Employee implements UserDetails {
     @Column(name = "employee_phone")
     private String employeePhoneNumber;
 
+    @Column(name = "employee_image")
+    private String employeeImage;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "employee_last_login")
     private Date employeeLastLogin;

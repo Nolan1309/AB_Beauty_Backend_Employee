@@ -20,21 +20,14 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        
-        // Kiểm tra nếu có dấu * trong danh sách origins
         boolean hasWildcard = allowedOrigins.contains("*");
         
         if (hasWildcard) {
-            // Nếu có wildcard, sử dụng phương thức setAllowedOrigins với "*"
             config.addAllowedOrigin("*");
-            // Lưu ý: khi sử dụng "*", không thể bật allowCredentials
         } else {
-            // Nếu không có wildcard, sử dụng danh sách cụ thể
             config.setAllowedOrigins(allowedOrigins);
             config.setAllowCredentials(true);
         }
-        
-        // Cho phép tất cả các header
         config.addAllowedHeader("*");
         
         // Cho phép tất cả các phương thức HTTP

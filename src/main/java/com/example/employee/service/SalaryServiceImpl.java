@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +65,9 @@ public class SalaryServiceImpl implements SalaryService {
     public Page<SalaryResponseDTO> getSalariesByEmployeeCodeAndYear(String employeeCode, int year, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Salary> salaryPage = salaryRepository.findSalariesByEmployeeCodeAndYear(employeeCode, year, pageable);
-
+        if (salaryPage.isEmpty()) {
+            return new PageImpl<>(Collections.emptyList(), pageable, 0);
+        }
         List<SalaryResponseDTO> salaryDTOList = salaryPage.getContent().stream()
                 .map(salary -> new SalaryResponseDTO(
                         salary.getId(),
@@ -78,7 +81,7 @@ public class SalaryServiceImpl implements SalaryService {
                         salary.getSalaryPaymentStatus(),
                         salary.getSalaryLinkFile()))
                 .collect(Collectors.toList());
-
         return new PageImpl<>(salaryDTOList, pageable, salaryPage.getTotalElements());
     }
+
 }

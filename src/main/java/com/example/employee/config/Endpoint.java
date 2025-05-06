@@ -10,10 +10,7 @@ public class Endpoint {
      */
     public static final String[] PUBLIC_GET_ENDPOINT = {
         // Auth endpoints
-        "/api/auth/refresh-token",
-
-        // Test endpoints
-        "/api/test/cors"
+        "/api/auth/refresh-token"
     };
 
     public static final String[] PUBLIC_POST_ENDPOINT = {
@@ -48,7 +45,6 @@ public class Endpoint {
         
         // Coupon endpoints
         "/api/coupon",
-        "/api/coupon/**",
         "/api/coupon/search",
         
         // Info Employee endpoints
@@ -126,7 +122,7 @@ public class Endpoint {
     public static final String[] USER_GET_ENDPOINT = {
         // Company endpoints (chỉ xem công ty của mình)
         "/api/company/*",
-        
+            "/api/company/list",
         // Coupon endpoints
         "/api/coupon",
         "/api/coupon/*/search",
@@ -153,12 +149,15 @@ public class Endpoint {
         "/api/info-employee/*",
         
         // Auth endpoints
-        "/api/auth/logout"
+        "/api/auth/logout",
+            "/api/info-employee"
     };
 
     public static final String[] USER_PUT_ENDPOINT = {
         // Info Employee endpoints (chỉ cập nhật thông tin của mình)
-        "/api/info-employee/*"
+        "/api/info-employee/*",
+            "/api/info-employee/**",
+            "/api/employee/*/change-password"
     };
     
     public static final String[] USER_DELETE_ENDPOINT = {

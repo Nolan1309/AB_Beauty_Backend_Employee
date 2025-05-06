@@ -35,6 +35,11 @@ public class CompanyServiceImpl implements CompanyService {
         return new ApiResponse<>("Successfully.", companies, 200);
     }
     @Override
+    public ApiResponse<List<?>> getAllCompany() {
+        List<Company> companies = companyRepository.findAll();
+        return new ApiResponse<>("Successfully.", companies, 200);
+    }
+    @Override
     public ApiResponse<Company> getCompanyByCompanyCode(String companyCode) {
         Company company = companyRepository.findCompanyByCompanyCode(companyCode);
         if (company == null) {
@@ -42,7 +47,6 @@ public class CompanyServiceImpl implements CompanyService {
         }
         return new ApiResponse<>("Company found successfully.", company, 200);
     }
-
     @Override
     @Transactional
     public ApiResponse<?> createCompany(CompanyDTO companyDTO) {

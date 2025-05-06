@@ -2,6 +2,8 @@ package com.example.employee.controller;
 
 import com.example.employee.config.JwtService;
 import com.example.employee.dto.ApiResponse;
+import com.example.employee.dto.auth.ChangePasswordDTO;
+import com.example.employee.dto.employee.EmployeeColleaguesDTO;
 import com.example.employee.dto.employee.EmployeeDTO;
 import com.example.employee.model.Employee;
 import com.example.employee.service.impl.EmployeeService;
@@ -41,25 +43,18 @@ public class EmployeeController {
     public ApiResponse<Page<?>> getColleagues(
             @RequestHeader("Authorization") String token,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size) {
+            @RequestParam(defaultValue = "10") int size) {
         if (token == null || !token.startsWith("Bearer ")) {
             return ApiResponse.error("Invalid or missing token.", 400);
         }
-        
-        // Extract token
         String jwtToken = token.substring(7);
         String email = jwtService.extractUsername(jwtToken);
-        
-        // Get employee from email
         Employee employee = employeeService.getEmployeeByEmail(email);
         if (employee == null) {
             return ApiResponse.error("Employee not found for the authenticated user.", 404);
         }
-        
-        // Get colleagues
         Pageable pageable = PageRequest.of(page, size);
-        Page<Employee> colleagues = employeeService.getEmployeesInSameCompany(employee.getEmployeeCode(), pageable);
-        
+        Page<EmployeeColleaguesDTO> colleagues = employeeService.getEmployeesInSameCompany(employee.getEmployeeCode(), pageable);
         return ApiResponse.success("Retrieved colleagues successfully", colleagues);
     }
 
@@ -79,7 +74,21 @@ public class EmployeeController {
         }
         return employeeService.getEmployeeByEmployeeCode(employeeCode);
     }
-
+    @PutMapping("/{employeeCode}/change-password")
+    public ApiResponse<?> changePassword(@PathVariable String employeeCode,
+                                         @RequestBody ChangePasswordDTO changePasswordDTO,
+                                         @RequestHeader("Authorization") String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ApiResponse.error("Invalid or missing token.", 400);
+        }
+        String jwtToken = token.substring(7);
+        String emailFromToken = jwtService.extractUsername(jwtToken);
+        boolean check = accessControlUtil.canAccessEmployeeInfo(employeeCode, emailFromToken);
+        if (!check) {
+            return ApiResponse.error("Access Denied.", 403);
+        }
+        return employeeService.changePassword(employeeCode, changePasswordDTO);
+    }
     @PostMapping
     public ApiResponse<?> createEmployee(@RequestBody EmployeeDTO employee) {
         return employeeService.createEmployee(employee);
