@@ -8,6 +8,5 @@ import java.util.Collection;
 
 public interface UserService extends UserDetailsService {
     Employee findByEmail(String email);
-
     Collection<? extends GrantedAuthority> getAuthorities(Employee employee);
 }

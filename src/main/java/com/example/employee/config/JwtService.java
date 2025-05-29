@@ -1,6 +1,7 @@
 package com.example.employee.config;
 
 
+import com.example.employee.model.Company;
 import com.example.employee.model.Employee;
 import com.example.employee.model.Role;
 import com.example.employee.service.impl.UserService;
@@ -43,11 +44,17 @@ public class JwtService {
                 if (role.getName().equals("USER")) {
                     isUser = true;
                 }
-
             }
         }
         claims.put("isAdmin", isAdmin);
         claims.put("isUser", isUser);
+        
+        // Thêm thông tin công ty vào token từ department
+        if (account != null && account.getDepartment() != null && account.getDepartment().getCompany() != null) {
+            Company company = account.getDepartment().getCompany();
+            claims.put("companyCode", company.getCompanyCode());
+            claims.put("companyName", company.getCompanyName());
+        }
 
         return createToken(claims, email);
     }
@@ -58,7 +65,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(tenDangNhap)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000)) // JWT hết hạn sau 30 phút
+                .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000)) // JWT hết hạn sau 60 phút
                 .signWith(SignatureAlgorithm.HS256, getSigneKey())
                 .compact();
     }

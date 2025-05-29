@@ -5,12 +5,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
+import java.util.List;
+
 @Entity
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
+// @JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "department")
 public class Department {
-    @Getter
+ 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -19,7 +21,7 @@ public class Department {
     @Column(name = "department_code", length = 200, nullable = false, unique = true)
     private String departmentCode;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "company_code", referencedColumnName = "company_code")
     private Company company;
 
@@ -32,6 +34,9 @@ public class Department {
 
     @Column(name = "department_level")
     private Integer departmentLevel;
+
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
+    private List<Employee> employeeList;
 
     public Integer getId() {
         return id;

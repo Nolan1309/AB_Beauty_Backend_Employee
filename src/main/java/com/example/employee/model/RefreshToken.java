@@ -3,15 +3,13 @@ package com.example.employee.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.Instant;
-import java.util.Date;
+
 @Data
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
+// @JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "refresh_token")
 public class RefreshToken {
-    private static final int EXPIRATION = 60 * 24;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -24,9 +22,11 @@ public class RefreshToken {
     @JoinColumn(name = "employee_code", referencedColumnName = "employee_code",nullable = false)
     private Employee employee;
 
-
     @Column(name = "expiryDate", nullable = false)
     private Instant expiryDate;
+    
+    @Column(name = "revoked", nullable = false)
+    private boolean revoked = false;
 
     public Integer getId() {
         return id;
@@ -58,5 +58,13 @@ public class RefreshToken {
 
     public void setExpiryDate(Instant expiryDate) {
         this.expiryDate = expiryDate;
+    }
+    
+    public boolean isRevoked() {
+        return revoked;
+    }
+
+    public void setRevoked(boolean revoked) {
+        this.revoked = revoked;
     }
 }

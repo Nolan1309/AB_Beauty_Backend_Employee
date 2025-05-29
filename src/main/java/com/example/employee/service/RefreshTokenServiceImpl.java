@@ -1,6 +1,7 @@
 package com.example.employee.service;
 
 import com.example.employee.exception.TokenRefreshException;
+import com.example.employee.factory.RefreshTokenFactory;
 import com.example.employee.model.RefreshToken;
 import com.example.employee.repository.EmployeeRepository;
 import com.example.employee.repository.RefreshTokenRepository;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class RefreshTokenServiceImpl implements RefreshTokenService {
@@ -36,15 +36,12 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
         RefreshToken refreshToken;
         if (existingToken.isPresent()) {
-
-            refreshToken = existingToken.get();
-            refreshToken.setToken(UUID.randomUUID().toString());
-            refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
+            refreshToken = RefreshTokenFactory.updateRefreshToken(existingToken.get(), refreshTokenDurationMs);
         } else {
-            refreshToken = new RefreshToken();
-            refreshToken.setEmployee(employeeRepository.findEmployeeByEmployeeCode(employeeCode));
-            refreshToken.setToken(UUID.randomUUID().toString());
-            refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
+            refreshToken = RefreshTokenFactory.createRefreshToken(
+                employeeRepository.findEmployeeByEmployeeCode(employeeCode), 
+                refreshTokenDurationMs
+            );
         }
         return refreshTokenRepository.save(refreshToken);
     }
@@ -55,6 +52,16 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
             refreshTokenRepository.delete(token);
             throw new TokenRefreshException(token.getToken(), "Refresh token đã hết hạn. Vui lòng đăng nhập lại.");
         }
+        
+        if (token.isRevoked()) {
+            throw new TokenRefreshException(token.getToken(), "Refresh token đã bị thu hồi. Vui lòng đăng nhập lại.");
+        }
+        
         return token;
+    }
+
+    @Override
+    public RefreshToken save(RefreshToken token) {
+        return refreshTokenRepository.save(token);
     }
 }

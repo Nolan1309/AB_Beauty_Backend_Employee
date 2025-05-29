@@ -6,8 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @RepositoryRestResource(exported = false)
 public interface DepartmentRepository extends JpaRepository<Department,Integer> {
     Department findDepartmentByDepartmentCode(String departmentCode);
     void deleteDepartmentByDepartmentCode(String departmentCode);
+
+    List<Department> findDepartmentByCompany_CompanyCode(String companyCode);
 }

@@ -1,4 +1,4 @@
-package com.example.employee.dto;
+package com.example.employee.dto.auth;
 
 import lombok.Data;
 
@@ -7,6 +7,9 @@ public class LoginRequest {
     private String email;
     private String password;
 
+    public LoginRequest() {
+    }
+    
     public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;

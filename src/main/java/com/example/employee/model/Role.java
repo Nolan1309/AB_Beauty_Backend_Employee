@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "role")
-@JsonInclude(JsonInclude.Include.NON_NULL)
+// @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class Role {
     @Id

@@ -1,13 +1,12 @@
-package com.example.employee.dto;
+package com.example.employee.dto.coupon;
 
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
-public class CouponResponseDTO {
+public class CouponDTO {
     private Integer id;
     private String companyName;
     private String couponCode;

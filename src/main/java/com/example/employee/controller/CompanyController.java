@@ -1,15 +1,17 @@
 package com.example.employee.controller;
 
-import com.example.employee.model.Company;
-import com.example.employee.service.CompanyServiceImpl;
+import com.example.employee.dto.ApiResponse;
+import com.example.employee.dto.company.CompanyDTO;
 import com.example.employee.service.impl.CompanyService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "${allowed.origins}", allowCredentials = "true")
 @RestController
 @RequestMapping( "/api/company")
 public class CompanyController {
@@ -18,29 +20,36 @@ public class CompanyController {
     private CompanyService companyService;
 
     @GetMapping
-    public List<Company> getAllCompanies() {
+    public ApiResponse<Page<?>> getAllCompanies(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        Pageable pageable;
+        pageable = PageRequest.of(page, size);
+        return companyService.getAllCompany(pageable);
+    }
+
+    @GetMapping("/list")
+    public ApiResponse<List<?>> getAllCompaniesList() {
         return companyService.getAllCompany();
     }
 
     @GetMapping("/{companyCode}")
-    public Company getCompanyById(@PathVariable String companyCode) {
-        Company item = companyService.getCompanyByCompanyCode(companyCode);
-        return item;
+    public ApiResponse<?> getCompanyById(@PathVariable String companyCode) {
+        return companyService.getCompanyByCompanyCode(companyCode);
     }
-
     @PostMapping
-    public Company createCompany(@RequestBody Company company) {
+    public ApiResponse<?> createCompany(@RequestBody @Valid CompanyDTO company) {
         return companyService.createCompany(company);
     }
 
     @PutMapping("/{companyCode}")
-    public Company updateCompany(@PathVariable String companyCode, @RequestBody Company company) {
+    public ApiResponse<?> updateCompany(@PathVariable String companyCode, @RequestBody CompanyDTO company) {
         return companyService.updateCompany(companyCode, company);
     }
 
     @DeleteMapping("/{companyCode}")
-    public void deleteCompany(@PathVariable String companyCode) {
-        companyService.deleteCompany(companyCode);
+    public ApiResponse<Void> deleteCompany(@PathVariable String companyCode) {
+        return companyService.deletedCompany(companyCode);
     }
 
 }

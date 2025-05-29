@@ -1,11 +1,9 @@
 package com.example.employee.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +15,6 @@ import java.util.Date;
 
 @Data
 @Entity
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "employee")
 public class Employee implements UserDetails {
     @Id
@@ -25,8 +22,7 @@ public class Employee implements UserDetails {
     @Column(name = "id")
     private Integer id;
 
-    @Getter
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "role_id")
     @JsonIgnore
     private Role role;
@@ -45,6 +41,9 @@ public class Employee implements UserDetails {
 
     @Column(name = "employee_phone")
     private String employeePhoneNumber;
+
+    @Column(name = "employee_image")
+    private String employeeImage;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "employee_last_login")
@@ -86,7 +85,7 @@ public class Employee implements UserDetails {
     @Column(name = "employee_total_Withdrat",precision = 65)
     private BigDecimal employeeTotalWithdraw = BigDecimal.ZERO;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_code", referencedColumnName = "department_code")
     private Department department;
 
@@ -275,5 +274,10 @@ public class Employee implements UserDetails {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+    
+    // Phương thức tiện ích để lấy thông tin công ty từ department
+    public Company getCompany() {
+        return department != null ? department.getCompany() : null;
     }
 }

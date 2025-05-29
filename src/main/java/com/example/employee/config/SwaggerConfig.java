@@ -24,14 +24,6 @@ public class SwaggerConfig {
                     .addSecurityItem(new SecurityRequirement().addList("JavaInUseSecurityScheme"))
                     .components(new Components().addSecuritySchemes("JavaInUseSecurityScheme", new SecurityScheme()
                             .name("JavaInUseSecurityScheme").type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
-
     }
-//    @Bean
-//    public Docket api() {
-//        return new Docket(DocumentationType.OAS_30)  // Sử dụng OpenAPI 3.0
-//                    .select()
-//                    .apis(RequestHandlerSelectors.basePackage("com.example.employee.controller"))  // Chỉ quét API trong package controller
-//                    .build();
-//    }
 }
 
