@@ -9,6 +9,7 @@ public class EmployeeDTO {
     private Integer id;
     private String employeeCode;
     private String employeeName;
+    private String image;
     private String email;
     private String password;
     private String employeePhoneNumber;
@@ -34,6 +35,22 @@ public class EmployeeDTO {
 
     // Role information
     private Integer roleId;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;

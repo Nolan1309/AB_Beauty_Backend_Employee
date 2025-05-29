@@ -119,6 +119,7 @@ public class EmployeeServiceImpl implements  UserService, EmployeeService {
         employeeDTO.setEmployeeCode(employee.getEmployeeCode());
         employeeDTO.setEmployeeName(employee.getEmployeeName());
         employeeDTO.setEmail(employee.getEmail());
+        employeeDTO.setImage(employee.getEmployeeImage());
         employeeDTO.setEmployeePhoneNumber(employee.getEmployeePhoneNumber());
         employeeDTO.setEmployeeLastLogin(employee.getEmployeeLastLogin());
         employeeDTO.setEmployeeActive(employee.getEmployeeActive());
